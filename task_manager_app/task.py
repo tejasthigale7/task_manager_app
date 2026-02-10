@@ -1,11 +1,14 @@
-
-
 class Task:
-    def __init__(self, name, description, priority):
+    """
+    Task model representing a single task.
+    """
+
+    def __init__(self, name: str, description: str, priority: str):
         self.name = name
         self.description = description
         self.priority = priority
 
+    # Convert object → dictionary (for JSON saving)
     def to_dict(self):
         return {
             "name": self.name,
@@ -13,6 +16,7 @@ class Task:
             "priority": self.priority
         }
 
+    # Convert dictionary → object (for JSON loading)
     @staticmethod
     def from_dict(data):
         return Task(

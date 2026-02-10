@@ -1,10 +1,10 @@
-
 import re
-
-PRIORITIES = {"high", "medium", "low"}
 
 
 def validate_string(prompt):
+    """
+    Validates non-empty string input.
+    """
     while True:
         value = input(prompt).strip()
         if value:
@@ -13,19 +13,26 @@ def validate_string(prompt):
 
 
 def validate_priority(prompt):
+    """
+    Validates priority: High / Medium / Low
+    """
     while True:
-        value = input(prompt).strip().lower()
-        if value in PRIORITIES:
-            return value.capitalize()
-        print("Invalid priority. Enter High, Medium, or Low.")
+        value = input(prompt).strip().capitalize()
+        if value in ["High", "Medium", "Low"]:
+            return value
+        print("Invalid priority. Please enter High, Medium, or Low.")
 
 
-def validate_index(prompt, max_value):
+def validate_index(prompt, max_len):
+    """
+    Validates index input.
+    """
     try:
-        value = int(input(prompt))
-        if 1 <= value <= max_value:
-            return value - 1
+        idx = int(input(prompt))
+        if 1 <= idx <= max_len:
+            return idx - 1
     except ValueError:
         pass
-    print("Invalid number.")
+
+    print("Invalid task number.")
     return None

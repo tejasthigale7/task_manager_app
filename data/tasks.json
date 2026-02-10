@@ -1,7 +1,22 @@
 [
     {
-        "name": "Running",
-        "description": "Running for Bhosri Marathon",
+        "name": "adding a name into a list",
+        "description": "adding into list",
         "priority": "High"
+    },
+    {
+        "name": "removing name from lists",
+        "description": "removing from list",
+        "priority": "Medium"
+    },
+    {
+        "name": "list",
+        "description": "writing a list",
+        "priority": "High"
+    },
+    {
+        "name": "Running",
+        "description": "Running In Marathon",
+        "priority": "Low"
     }
 ]

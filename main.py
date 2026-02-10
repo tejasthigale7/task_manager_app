@@ -1,5 +1,3 @@
-
-
 from task_manager_app.task import Task
 from task_manager_app.file_handler import load_tasks, save_tasks
 from task_manager_app.input_validator import (
@@ -9,22 +7,13 @@ from task_manager_app.input_validator import (
 )
 
 
-def display_menu():
-    print("\nTask Manager Application")
-    print("1. Add Task")
-    print("2. View Tasks")
-    print("3. Update Task")
-    print("4. Delete Task")
-    print("5. Exit")
-
-
-def view_tasks(tasks):
+def display_tasks(tasks):
     if not tasks:
         print("No tasks found.")
         return
 
-    for idx, task in enumerate(tasks, start=1):
-        print(f"{idx}. {task.name} | {task.description} | Priority: {task.priority}")
+    for i, task in enumerate(tasks, 1):
+        print(f"{i}. {task.name} | {task.description} | {task.priority}")
 
 
 def add_task(tasks):
@@ -34,71 +23,83 @@ def add_task(tasks):
 
     tasks.append(Task(name, description, priority))
     save_tasks(tasks)
-    print(f"Task '{name}' added successfully!")
+
+    print("Task added successfully!")
 
 
 def update_task(tasks):
-    view_tasks(tasks)
     if not tasks:
+        print("No tasks found.")
         return
 
-    index = validate_index("Enter task number to update: ", len(tasks))
-    if index is None:
+    display_tasks(tasks)
+    idx = validate_index("Enter task number to update: ", len(tasks))
+
+    if idx is None:
         return
 
-    task = tasks[index]
+    name = input("New name (leave blank to keep same): ").strip()
+    desc = input("New description (leave blank to keep same): ").strip()
+    pr = input("New priority (High/Medium/Low, blank to keep same): ").strip()
 
-    new_name = input("New name (leave blank to keep): ").strip()
-    new_desc = input("New description (leave blank to keep): ").strip()
-    new_priority = input("New priority (High/Medium/Low, blank to keep): ").strip()
-
-    if new_name:
-        task.name = new_name
-    if new_desc:
-        task.description = new_desc
-    if new_priority:
-        task.priority = validate_priority("Confirm priority: ")
+    if name:
+        tasks[idx].name = name
+    if desc:
+        tasks[idx].description = desc
+    if pr:
+        tasks[idx].priority = pr.capitalize()
 
     save_tasks(tasks)
-    print(f"Task '{task.name}' updated successfully!")
+
+    print("Task updated successfully!")
 
 
 def delete_task(tasks):
-    view_tasks(tasks)
     if not tasks:
+        print("No tasks found.")
         return
 
-    index = validate_index("Enter task number to delete: ", len(tasks))
-    if index is None:
+    display_tasks(tasks)
+    idx = validate_index("Enter task number to delete: ", len(tasks))
+
+    if idx is None:
         return
 
-    confirm = input("Are you sure? (y/n): ").lower()
-    if confirm == "y":
-        removed = tasks.pop(index)
-        save_tasks(tasks)
-        print(f"Task '{removed.name}' deleted successfully!")
-    else:
-        print("Deletion cancelled.")
+    tasks.pop(idx)
+    save_tasks(tasks)
+
+    print("Task deleted successfully!")
 
 
 def main():
     tasks = load_tasks()
 
     while True:
-        display_menu()
+        print("\n===== Task Manager Application =====")
+        print("1. Add Task")
+        print("2. View Tasks")
+        print("3. Update Task")
+        print("4. Delete Task")
+        print("5. Exit")
+
         choice = input("Enter your choice: ")
 
         if choice == "1":
             add_task(tasks)
+
         elif choice == "2":
-            view_tasks(tasks)
+            display_tasks(tasks)
+
         elif choice == "3":
             update_task(tasks)
+
         elif choice == "4":
             delete_task(tasks)
+
         elif choice == "5":
             print("Exiting Task Manager. Goodbye!")
             break
+
         else:
             print("Invalid choice. Please try again.")
 
